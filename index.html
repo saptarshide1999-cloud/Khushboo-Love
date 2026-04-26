@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Sudipa ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to right, #ff758c, #ff7eb3);
+  color: white;
+  text-align: center;
+}
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+button {
+  margin-top: 20px;
+  padding: 12px 25px;
+  font-size: 1em;
+  border-radius: 25px;
+  border: none;
+  background: white;
+  color: #ff4d6d;
+}
+
+#player {
+  width: 0;
+  height: 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Sudipa ❤️</h1>
+  <p>Close your eyes… and just listen 💫</p>
+  <button onclick="startLove()">Start ❤️</button>
+</div>
+
+<audio id="voiceNote">
+  <source src="voice.m4a" type="audio/mp4">
+</audio>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<div id="player"></div>
+
+<script>
+let player;
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+    height: '0',
+    width: '0',
+    videoId: '8uJ-wOljP_s'
+  });
+}
+
+function startLove() {
+  const voice = document.getElementById("voiceNote");
+  voice.volume = 1.0;
+  voice.play();
+
+  setTimeout(() => {
+    player.playVideo();
+    if (player.setVolume) player.setVolume(20);
+  }, 500);
+}
+</script>
+
+</body>
+</html>
