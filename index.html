@@ -64,15 +64,25 @@ function onYouTubeIframeAPIReady() {
   });
 }
 
+<script>
 function startLove() {
   const voice = document.getElementById("voiceNote");
+
+  voice.muted = false;
   voice.volume = 1.0;
-  voice.play();
+
+  voice.play().then(() => {
+    console.log("Voice playing");
+  }).catch(error => {
+    alert("Tap again ❤️");
+  });
 
   setTimeout(() => {
-    player.playVideo();
-    if (player.setVolume) player.setVolume(20);
-  }, 500);
+    if (player) {
+      player.playVideo();
+      player.setVolume(20);
+    }
+  }, 800);
 }
 </script>
 
