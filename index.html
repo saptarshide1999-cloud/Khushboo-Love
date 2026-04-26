@@ -60,29 +60,44 @@ function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
     height: '0',
     width: '0',
-    videoId: '8uJ-wOljP_s'
+    videoId: '8uJ-wOljP_s',
+    playerVars: {
+      autoplay: 0,
+      controls: 0
+    }
   });
 }
 
-<script>
 function startLove() {
   const voice = document.getElementById("voiceNote");
 
-  voice.muted = false;
-  voice.volume = 1.0;
+  // Ensure clean start
+  voice.pause();
+  voice.currentTime = 0;
 
+  voice.volume = 1.0;
+  voice.muted = false;
+
+  // PLAY VOICE FIRST
   voice.play().then(() => {
-    console.log("Voice playing");
-  }).catch(error => {
+
+    // Start song AFTER voice has clearly begun
+    setTimeout(() => {
+      if (player && player.playVideo) {
+        player.playVideo();
+
+        // Keep song very soft
+        setTimeout(() => {
+          if (player.setVolume) {
+            player.setVolume(10); // super low background
+          }
+        }, 500);
+      }
+    }, 1500); // delay is key!
+
+  }).catch(() => {
     alert("Tap again ❤️");
   });
-
-  setTimeout(() => {
-    if (player) {
-      player.playVideo();
-      player.setVolume(20);
-    }
-  }, 800);
 }
 </script>
 
