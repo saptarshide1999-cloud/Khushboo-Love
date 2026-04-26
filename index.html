@@ -55,14 +55,19 @@ button {
 
 <script>
 let player;
+let isPlayerReady = false;
 
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
     height: '0',
     width: '0',
     videoId: '8uJ-wOljP_s',
+    events: {
+      'onReady': () => {
+        isPlayerReady = true;
+      }
+    },
     playerVars: {
-      autoplay: 0,
       controls: 0
     }
   });
@@ -71,35 +76,30 @@ function onYouTubeIframeAPIReady() {
 function startLove() {
   const voice = document.getElementById("voiceNote");
 
-  // Ensure clean start
-  voice.pause();
   voice.currentTime = 0;
-
   voice.volume = 1.0;
-  voice.muted = false;
 
-  // PLAY VOICE FIRST
-  voice.play().then(() => {
-
-    // Start song AFTER voice has clearly begun
-    setTimeout(() => {
-      if (player && player.playVideo) {
-        player.playVideo();
-
-        // Keep song very soft
-        setTimeout(() => {
-          if (player.setVolume) {
-            player.setVolume(10); // super low background
-          }
-        }, 500);
-      }
-    }, 1500); // delay is key!
-
-  }).catch(() => {
+  voice.play().catch(() => {
     alert("Tap again ❤️");
   });
+
+  // 🔥 THIS IS THE KEY PART
+  voice.onended = () => {
+    if (isPlayerReady && player) {
+      player.playVideo();
+
+      // keep volume soft
+      setTimeout(() => {
+        if (player.setVolume) {
+          player.setVolume(20);
+        }
+      }, 500);
+    } else {
+      alert("Song loading… tap again ❤️");
+    }
+  };
 }
-</script>
+</script
 
 </body>
 </html>
